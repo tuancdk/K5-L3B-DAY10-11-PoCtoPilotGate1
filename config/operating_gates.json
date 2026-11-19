@@ -1,24 +1,29 @@
 {
   "_huong_dan": "Cổng kinh doanh, vận hành, pháp lý mà trợ lý PHẢI tuân theo. Bàn điền ở vòng 1, chốt bằng python3 -m lab10.checkpoint, rồi được sửa tiếp ở vòng 2. null = chưa đặt cổng này. Giải thích từng dòng: docs/guide.md, mục Cổng trong config (#ban-do).",
   "business": {
-    "daily_refund_cap_vnd": null,
-    "cost_budget_per_ticket_vnd": null,
+    "daily_refund_cap_vnd": 1600000,
+    "cost_budget_per_ticket_vnd": 1500,
     "pilot_scope": {"mode": "all", "warehouses": [], "percent": 100},
-    "roi_min": null
+    "roi_min": 0.4
   },
   "operations": {
-    "pic": "",
-    "approver_id": "",
+    "pic": "NV-TUNG",
+    "approver_id": "NV-HANH",
     "reviewers_on_shift": 1,
-    "review_capacity_per_hour": null,
-    "max_queue_wait_minutes": null,
-    "stop_conditions": [],
-    "alert_channel": "",
-    "decision_note": false,
-    "review_sampling_pct": 0
+    "review_capacity_per_hour": 6,
+    "max_queue_wait_minutes": 60,
+    "stop_conditions": [
+      "Có 1 lỗi ghi oan cho hãng (hãng khiếu nại hoặc đối soát phát hiện) thì NV-TUNG tắt file_carrier_fault và notify_carrier trong 15 phút",
+      "Có 1 tin gửi hãng chứa tên, SĐT hoặc địa chỉ người nhận thì tắt notify_carrier ngay",
+      "Tổng hoàn sai trong ngày lớn hơn 0đ (đối soát cuối ngày của NV-OANH) thì tắt issue_refund, mọi ticket chuyển người duyệt",
+      "Hàng chờ người duyệt có ca chờ quá 60 phút trong 2 giờ liên tiếp thì thu hẹp pilot về một kho"
+    ],
+    "alert_channel": "#logix-refund-pilot-alert",
+    "decision_note": true,
+    "review_sampling_pct": 10
   },
   "legal": {
-    "pii_fields_blocked_to_third_party": [],
-    "carrier_fault_requires_recorded_cause": false
+    "pii_fields_blocked_to_third_party": ["recipient_contact", "customer_note"],
+    "carrier_fault_requires_recorded_cause": true
   }
 }
