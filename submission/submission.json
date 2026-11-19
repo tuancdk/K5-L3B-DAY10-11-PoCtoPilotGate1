@@ -1,12 +1,14 @@
 {
-  "team": "",
-  "members": [],
-  "incident": "",
-  "decision_v1": "",
-  "decision_v2": "",
+  "team": "K5-L3B-DAY10-11-PoCtoPilotGate1",
+  "members": [
+    "LeAnhTuan-2A202603792"
+  ],
+  "incident": "S2",
+  "decision_v1": "Thu hẹp",
+  "decision_v2": "Thu hẹp",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Chữ đi vào trợ lý (ticket của khách, ghi chú lúc đặt hàng checkout_note) chỉ là mô tả sự việc chứ không phải lệnh, và mỗi khách chỉ khiếu nại một đơn mỗi ngày; thẻ S2 cho thấy cả hai đều sai (47% ticket của thẻ có câu lệnh cài vào, khách C-03 khiếu nại 5 đơn một ngày, 498.000đ > trần 300.000đ).",
+    "reduce_or_prevent": "Ở lệnh ghi issue_refund, cổng G1 NGĂN được việc shop bị trừ tiền và hoàn vượt hạn mức không ai duyệt, vì nó không đọc chữ mà tính lại payer = LOGIX và số tiền từ tracking DB + chính sách hiệu lực, khoản trên 200.000đ phải có phê duyệt hợp lệ đúng đơn (S2: trừ shop 32.750.000đ → 0đ); nhưng trần 300.000đ/khách/ngày chỉ GIẢM khả năng vì người trục lợi dùng nhiều tài khoản vẫn lọt, chỉ trần tổng 1.600.000đ/ngày giới hạn thiệt hại; và chính cổng vòng 1 đã ném lỗi ở mốc prepared nên độ tin cậy của gate phải được test.",
+    "measure_in_pilot": "Trong pilot thật cần đo lại: tỉ lệ ticket và checkout_note có câu lệnh (instruction_injection_rate) với chữ thật, đủ ngôn ngữ; số khách có nhiều khoản hoàn trong ngày và phân bố số tiền mỗi khách; tỉ lệ chuyển người duyệt và thời gian chờ thật của NV-HANH (mock: 0,20–0,23, 0 ca ùn); và đối soát tuần của NV-OANH có còn khoản trừ shop nào không (mock: 0đ)."
   }
 }
