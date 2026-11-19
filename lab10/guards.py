@@ -113,7 +113,9 @@ def _gate_refund(ctx, action):
     if action.get("approval_id") and expected <= pol["auto_limit_vnd"]:
         changes["approval_id"] = None          # không "tiêu" phê duyệt cho khoản nằm trong hạn mức tự động
     if changes:
-        ctx.log("g1_fix_refund", asked=action.get("amount_vnd"), payer=action.get("payer"), **changes)
+        # vòng 2 (thẻ S2): bản vòng 1 truyền payer hai lần vào ctx.log -> TypeError khi phải sửa cả payer
+        ctx.log("g1_fix_refund", asked_vnd=action.get("amount_vnd"), asked_payer=action.get("payer"),
+                fixed=dict(changes))
         return Verdict.modify("đưa khoản hoàn về đúng quyền lợi theo tracking DB và chính sách hiệu lực", **changes)
     return Verdict.allow()
 
